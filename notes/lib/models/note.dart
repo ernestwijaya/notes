@@ -6,24 +6,35 @@ class Note {
   final String description;
   String? imageUrl;
   Timestamp? createdAt;
-  Timestamp? updateAt;  
+  Timestamp? updatedAt;  
 
   Note({
-    
+
     this.id,
     required this.title,
     required this.description,
     required this.imageUrl,
     required this.createdAt,
-    required this.updateAt,
+    required this.updatedAt,
   });
 
   factory Note.fromDocument(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-    return Note(title: title, 
-    description: description, 
-    imageUrl: imageUrl, 
-    createdAt: createdAt, 
-    updateAt: updateAt)
+    return Note(title: data['title'], 
+    description: data['description'], 
+    imageUrl: data['imageUrl'], 
+    createdAt: data['created_at'] as Timestamp, 
+    updatedAt: data['updated_at'] as Timestamp,
+    ); 
+  }
+
+  Map<String, dynamic> toDocument()   {
+    return {
+      'title' : title,
+      'description' : description,
+      'image_url' : imageUrl,
+      'created_at' : createdAt,
+      'updated_at' : updatedAt,
+    };
   }
 }
